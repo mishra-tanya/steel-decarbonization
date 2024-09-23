@@ -4,59 +4,64 @@ import os
 from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
-
+import matplotlib.pyplot as plt
+from io import BytesIO
+import matplotlib.colors as mcolors
+import pythoncom
+import win32com.client as win32
+from django.conf import settings
+from django.shortcuts import render
+from openpyxl import load_workbook
 
 def index(request):
     return render(request,"index.html")
 
 def term(request):
-    return HttpResponse("tem pahe hie")
+    return render(request, 'starter-page.html')
+
+def ste(request):
+    return render(request,"steel.html")
+
 
 def steel(request):
+    # Define the path to the Excel file
     static_folder = os.path.join(settings.BASE_DIR, 'static')
     excel_file_path = os.path.join(static_folder, 'steel.xlsx')
-    
-    sheet_name = 'Database'
-    df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
-    
-    def format_dataframe(df):
-        # Ensure df is a DataFrame, and format it as HTML
-        pd.set_option('display.float_format', lambda x: f'{x:.2f}')
-        return df.to_html(index=False, na_rep='')
 
-    # Filter rows where 'Scenario' is 'SBTi 1.5C' and 'Sector.ETP' is 'Iron and steel - core boundary'
-    specific_row = df[(df['Scenario'] == 'SBTi 1.5C') & (df['Sector.ETP'] == 'Iron and steel - core boundary')]
+    if not os.path.exists(excel_file_path):
+        return render(request, 'index.html', {'error': 'Excel file not found.'})
 
-    # Identify columns that contain years
-    year_columns = [str(year) for year in range(2023, 2029)]
-    
-    # Get all columns and identify the first 8 columns
-    all_columns = df.columns
-    first_8_columns = list(all_columns[:8])
-    
-    # Identify non-year columns and combine with year columns
-    non_year_columns = [col for col in all_columns if col not in year_columns]
-    
-    # Combine first 8 columns with year columns (ensure unique columns)
-    combined_columns = list(dict.fromkeys(first_8_columns + year_columns))
+    # Get user inputs from the GET request
+    start_year = request.GET.get('start_year')
+    base_year_activity = request.GET.get('base_year_activity')
+    base_year_emission = request.GET.get('base_year_emission')
+    end_year = request.GET.get('end_year')
+    target_activity = request.GET.get('target_activity')
+    target_year_output = request.GET.get('target_year_output')
+    scrap_base = request.GET.get('scrap_base')
+    scrap_target = request.GET.get('scrap_target')
 
-    # Ensure we have columns to select
-    if not combined_columns:
-        return HttpResponse("No columns available to display.")
-    
-    specific_row = specific_row[combined_columns]
+    # Load the Excel file
+    workbook = load_workbook(excel_file_path)
+    sheet = workbook['ironandsteelmakertool']  # Adjust sheet name accordingly
 
-    # If specific_row is empty, handle it
-    if specific_row.empty:
-        return HttpResponse("No data found for 'SBTi 1.5C' scenario and 'Iron and steel - core boundary'.")
-    
-    # Convert the filtered DataFrame to HTML
-    html_data = format_dataframe(specific_row)
+    # Update Excel cells with user inputs
+    sheet['D16'] = start_year
+    sheet['D17'] = base_year_activity
+    sheet['D18'] = base_year_emission
+    sheet['D20'] = end_year
+    sheet['D21'] = target_activity
+    sheet['D22'] = target_year_output
+    sheet['D24'] = scrap_base
+    sheet['D25'] = scrap_target
 
-    # Load the template
-    template = loader.get_template('display_sheet.html')
-    context = {
-        'table_html': html_data,
-    }
-    
-    return HttpResponse(template.render(context, request))
+    # Save the workbook after making changes
+    workbook.save(excel_file_path)
+
+    # Return success message to the template
+    return render(request, 'steel_graph.html', {'message': 'Excel updated successfully!'})
+
+
+def format_dataframe(df):
+    pd.set_option('display.float_format', lambda x: f'{x:.2f}')
+    return df.to_html(index=False, na_rep='')

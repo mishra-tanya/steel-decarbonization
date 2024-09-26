@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Sheet Display</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group select {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* To hide the input group */
+        .hidden {
+            display: none;
+        }
+        .error-msg {
+            font-size: 12px;
+            color: red;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Steel Data Analysis</h1>
+
+        <!-- Input Fields -->
+        <div class="input-group">
+            <label for="target">Target Setting Method:</label>
+            <input type="text" id="target" value="Sectoral Decarbonisation Approach" readonly>
+        </div>
+        <div class="input-group">
+            <label for="scenario">SDA Scenario:</label>
+            <input type="text" id="scenario" value="SBTi 1.5C" readonly> 
+        </div>
+        <div class="input-group">
+            <label for="sector_etp">SDA Sector:</label>
+            <input type="text" id="sector_etp" value="Iron and steel - core boundary" readonly>
+        </div>
+        <div class="input-group">
+            <label for="start_year">Base Year:</label>
+            <select name="year" id="year"></select>
+        </div>
+        <div class="input-group">
+            <label for="base_year_activity">Base Year | Activity Output:</label>
+            <input type="number" id="base_year_activity" value="" >
+        </div>
+        <div class="input-group">
+            <label for="base_year_emission">Base Year | Emissions within the core boundary*</label>
+            <input type="number" id="base_year_emission">
+        </div>
+        <div class="input-group">
+            <label for="target_year">Target Year:</label>
+            <select name="target_year" id="target_year"></select>
+        </div>
+
+        <!-- Target year | Type of activity projection -->
+        <div class="input-group">
+            <label for="target_activity">Target year | Type of activity projection</label>
+            <select name="target_activity" id="target_activity">
+                <option value="Fixed market share">Fixed market share</option>
+                <option value="Target year output">Target year output</option>
+            </select>
+        </div>
+
+        <!-- Target year | Activity output (this field will be hidden conditionally) -->
+        <div class="input-group hidden" id="target_year_output_group">
+            <label for="target_year_output">Target year | Activity output</label>
+            <input type="number" id="target_year_output">
+        </div>
+
+        <div class="input-group">
+            <label for="scrap_base">Scrap ratio in base year</label>
+            <input type="number" id="scrap_base" max="100" min="0" oninput="validateScrapRatio(this, 'base_error')">
+            <span id="base_error" class="error-msg" style="color:red; display:none;"></span>
+        </div>
+        
+        <div class="input-group">
+            <label for="scrap_target">Scrap ratio in target year</label>
+            <input type="number" id="scrap_target" max="100" min="0" oninput="validateScrapRatio(this, 'target_error')">
+            <span id="target_error" class="error-msg" style="color:red; display:none;"></span>
+        </div>
+
+        <div id="loader" style="display:none;">
+            <span style="color:green">Loading Please Wait...</span>
+        </div>
+        <!-- Container to display AJAX response -->
+        <div id="table-container"></div>
+    </div>
+
+    <script>
+        //  Base Year select box
+        let year = document.getElementById('year');
+        for (let i = 2015; i <= 2024; i++) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+            year.appendChild(option);
+        }
+
+        //  Target Year select box
+        let target_year = document.getElementById('target_year');
+        for (let i = 2028; i <= 2035; i++) {
+            let option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+            target_year.appendChild(option);
+        }
+
+        // Show/Hide "Target year | Activity output" based on selected option
+        $('#target_activity').on('change', function() {
+            if ($(this).val() === 'fms') {
+                $('#target_year_output_group').addClass('hidden');
+            } else {
+                $('#target_year_output_group').removeClass('hidden');
+            }
+        });
+
+        function validateScrapRatio(input, errorElementId) {
+            let value = parseFloat(input.value);
+            let errorMsg = document.getElementById(errorElementId);
+    
+            if (value > 100) {
+                errorMsg.style.display = 'block';
+                errorMsg.innerHTML = "Scrap ratio must be between 0 and 100%";
+                input.value = ''; 
+            } else if (value < 0) {
+                errorMsg.style.display = 'block';
+                errorMsg.innerHTML = "Scrap ratio must be between 0 and 100%";
+                input.value = 0;
+            } else {
+                errorMsg.style.display = 'none'; 
+            }
+        }
+        // Validation and Ajax for form submission (Assuming you will handle this in your backend)
+        $(document).ready(function() {
+            function updateData() {
+                var start_year = $('#year').val();
+                var base_year_activity = $('#base_year_activity').val();
+                var base_year_emission = $('#base_year_emission').val();
+                var end_year = $('#target_year').val();
+                var target_activity = $('#target_activity').val();
+                var target_year_output = $('#target_year_output').val();
+                var scrap_base = $('#scrap_base').val();
+                var scrap_target = $('#scrap_target').val();
+        
+                console.log(start_year, base_year_activity, base_year_emission, target_year_output, scrap_base, scrap_target);
+                $('#loader').show();
+        
+                // Add validation for required fields
+                if (start_year && end_year && base_year_activity && base_year_emission) {
+                    $.ajax({
+                        url: "{% url 'steel' %}",
+                        type: "GET",
+                        data: {
+                            start_year: start_year,
+                            base_year_activity: base_year_activity,
+                            base_year_emission: base_year_emission,
+                            end_year: end_year,
+                            target_activity: target_activity,
+                            target_year_output: target_year_output,
+                            scrap_base: scrap_base,
+                            scrap_target: scrap_target
+                        },
+                        success: function(response) {
+                            $('#loader').hide();
+                            $('#table-container').html(response);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            $('#loader').hide();
+                            let errorMessage = `<p>An error occurred while processing your request:</p>
+                                                <p>Status: ${textStatus}</p>
+                                                <p>Error: ${errorThrown}</p>`;
+                            if (jqXHR.responseText) {
+                                errorMessage += `<p>Server Response: ${jqXHR.responseText}</p>`;
+                            }
+                            $('#table-container').html(errorMessage);
+                        }
+                    });
+                } else {
+                    $('#loader').hide();
+                    $('#table-container').html('<p>Please fill in all required fields.</p>');
+                }
+            }
+        
+            // Trigger updateData on input change
+            $('#year, #target_year, #base_year_activity, #base_year_emission, #target_activity, #target_year_output, #scrap_base, #scrap_target').on('change keyup', function() {
+                clearTimeout($.data(this, 'timer'));
+                var wait = setTimeout(updateData, 500); // wait 500ms after the last input
+                $(this).data('timer', wait);
+            });
+        
+            // Initial data load (if needed)
+            updateData();
+        });
+        
+    </script>
+</body>
+</html>

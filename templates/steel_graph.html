@@ -4,35 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steel Graph</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}"> <!-- Link to your CSS if needed -->
 </head>
 <body>
-    <h1>Steel Decarbonisation Graph</h1>
+    <h1>Steel Graph</h1>
 
-    <!-- Show any error messages if needed -->
-    {% if error %}
-        <div class="error">{{ error }}</div>
+    {% if image_url %}
+        <img src="{% static 'img/1.png' %}" alt="Steel Data Graph">
+    {% else %}
+        <p>No graph available.</p>
     {% endif %}
-
-    <!-- Display the graph -->
-    <div id="graph-container">
-        <img src="{{ graph_path }}" alt="Steel Decarbonisation Graph">
-    </div>
-
-    <!-- Show the data from the inputs -->
-    <h2>User Inputs</h2>
-    <ul>
-        <li>Start Year: {{ start_year }}</li>
-        <li>Base Year Activity: {{ base_year_activity }}</li>
-        <li>Base Year Emission: {{ base_year_emission }}</li>
-        <li>End Year: {{ end_year }}</li>
-        <li>Target Activity: {{ target_activity }}</li>
-        <li>Target Year Output: {{ target_year_output }}</li>
-        <li>Scrap Base: {{ scrap_base }}</li>
-        <li>Scrap Target: {{ scrap_target }}</li>
-    </ul>
-
-    {% comment %} <a href="{% url 'index' %}">Back to Home</a> {% endcomment %}
 </body>
 </html>

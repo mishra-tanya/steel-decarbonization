@@ -7,7 +7,7 @@
   <title>Steel Decarbonisation Tool</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
+  {% load static %}
   <!-- Favicons -->
   <link href="static/assets/img/favicon.png" rel="icon">
   <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -18,15 +18,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
   <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
   <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Main CSS File -->
-  <link href="static/assets/css/main.css" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
 
  
 </head>
@@ -47,7 +47,7 @@
           <li><a href="#hero" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="steel-decarbonisation">Steel Decarbonisation</a></li>
+          <li><a href="steel">Steel Decarbonisation</a></li>
 
           {% comment %} <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
@@ -1032,19 +1032,11 @@
         <div class="row gy-4">
 
           <div class="col-lg-4">
-            <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h3>Address</h3>
-                <p>A108 Adam Street, New York, NY 535022</p>
-              </div>
-            </div><!-- End Info Item -->
-
             <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
               <i class="bi bi-telephone flex-shrink-0"></i>
               <div>
                 <h3>Call Us</h3>
-                <p>+1 5589 55488 55</p>
+                <p>+91 1234567890</p>
               </div>
             </div><!-- End Info Item -->
 
@@ -1052,7 +1044,7 @@
               <i class="bi bi-envelope flex-shrink-0"></i>
               <div>
                 <h3>Email Us</h3>
-                <p>info@example.com</p>
+                <a href="mailto:info@indiaesg.org">info@indiaesg.org</a>
               </div>
             </div><!-- End Info Item -->
 
@@ -1100,18 +1092,21 @@
 
   <footer id="footer" class="footer dark-background">
     <div class="container">
-      <h3 class="sitename">Steel Decarbonisation</h3>
-      <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
+      <h3 class="sitename">Steel Decarbonisation Tool</h3>
+      <p>This tool is for setting emissions reduction targets within the iron
+         & steel core boundary. <br> For emissions (scope 1, 2 & 3) outside the core boundary,
+          please refer to the cross-sector near-term target setting tool.							
+      </p>
       <div class="social-links d-flex justify-content-center">
         <a href=""><i class="bi bi-twitter-x"></i></a>
         <a href=""><i class="bi bi-facebook"></i></a>
         <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-skype"></i></a>
+        <a href=""><i class="bi bi-youtube"></i></a>
         <a href=""><i class="bi bi-linkedin"></i></a>
       </div>
       <div class="container">
         <div class="copyright">
-          <span>Copyright</span> <strong class="px-1 sitename">Steel Decarbonisation Tool</strong> <span>All Rights Reserved</span>
+          <span>© Copyright 2024</span> <strong class="px-1 sitename">Steel Decarbonisation Tool.</strong> <span>All Rights Reserved</span>
         </div>
      
       </div>

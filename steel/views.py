@@ -18,6 +18,8 @@ import openpyxl
 from PIL import Image
 from PIL import ImageGrab
 import time
+import datetime
+
 
 def index(request):
     return render(request,"index.html")
@@ -44,14 +46,23 @@ def steel(request):
         sheet = wb.sheets['ironandsteelmakertool']
 
         # Update Excel cells with user inputs
-        sheet.range('D16').value = request.GET.get('start_year')
-        sheet.range('D17').value = request.GET.get('base_year_activity')
-        sheet.range('D18').value = request.GET.get('base_year_emission')
-        sheet.range('D20').value = request.GET.get('end_year')
-        sheet.range('D21').value = request.GET.get('target_activity')
-        sheet.range('D22').value = request.GET.get('target_year_output')
-        sheet.range('D24').value = request.GET.get('scrap_base')
-        sheet.range('D25').value = request.GET.get('scrap_target')
+        sheet.range('D16').value = request.POST.get('start_year')
+        sheet.range('D17').value = request.POST.get('base_year_activity')
+        sheet.range('D18').value = request.POST.get('base_year_emission')
+        sheet.range('D20').value = request.POST.get('end_year')
+        sheet.range('D21').value = request.POST.get('target_activity')
+        sheet.range('D22').value = request.POST.get('target_year_output')
+        sheet.range('D24').value = request.POST.get('scrap_base')
+        sheet.range('D25').value = request.POST.get('scrap_target')
+        print("Start Year:", request.POST.get('start_year'))
+        print("Base Year Activity:", request.POST.get('base_year_activity'))
+        print("Base Year Emission:", request.POST.get('base_year_emission'))
+        print("End Year:", request.POST.get('end_year'))
+        print("Target Activity:", request.POST.get('target_activity'))
+        print("Target Year Output:", request.POST.get('target_year_output'))
+        print("Scrap Base:", request.POST.get('scrap_base'))
+        print("Scrap Target:", request.POST.get('scrap_target'))
+
         time.sleep(2) 
         save_directory = os.path.join(settings.BASE_DIR, 'static/img')
         os.makedirs(save_directory, exist_ok=True) 
@@ -71,8 +82,8 @@ def steel(request):
         time.sleep(1)
 
         screenshot = ImageGrab.grabclipboard()
-
-        image_name = 'steel_content_image.png'
+        current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        image_name = f'{current_time}.png'
         server_image_path = os.path.join(save_directory, image_name)
 
         if screenshot is not None:
@@ -83,7 +94,8 @@ def steel(request):
 
         wb.close()
         app.quit()
-        return render(request, 'index.html', {'error': str(e)})
+        image_url = os.path.join('img', image_name)  # Path relative to 'static' folder
+        return render(request, 'steel.html', {'image_path': image_name})
 
     except Exception as e:
         if 'wb' in locals():

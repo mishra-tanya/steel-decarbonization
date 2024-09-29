@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
 import pandas as pd
 import os
 import io
@@ -18,16 +19,23 @@ import openpyxl
 from PIL import Image
 from PIL import ImageGrab
 import time
+import datetime
+from .forms import ContactForm
+from django.contrib import messages
 
+# index
 def index(request):
     return render(request,"index.html")
 
+# starter page
 def term(request):
     return render(request, 'starter-page.html')
 
+# steel page
 def ste(request):
     return render(request,"steel.html")
 
+# steel logic url steel decarbonisation
 def steel(request):
     # Define the path to the Excel file
     static_folder = os.path.join(settings.BASE_DIR, 'static')
@@ -39,19 +47,27 @@ def steel(request):
     # Ensure the file is not open elsewhere and we can access it
     try:
         wb = openpyxl.load_workbook(excel_file_path)
-        app = xw.App(visible=False)  # Hide Excel instance
+        app = xw.App(visible=False)  
         wb = app.books.open(excel_file_path)
         sheet = wb.sheets['ironandsteelmakertool']
 
-        # Update Excel cells with user inputs
-        sheet.range('D16').value = request.GET.get('start_year')
-        sheet.range('D17').value = request.GET.get('base_year_activity')
-        sheet.range('D18').value = request.GET.get('base_year_emission')
-        sheet.range('D20').value = request.GET.get('end_year')
-        sheet.range('D21').value = request.GET.get('target_activity')
-        sheet.range('D22').value = request.GET.get('target_year_output')
-        sheet.range('D24').value = request.GET.get('scrap_base')
-        sheet.range('D25').value = request.GET.get('scrap_target')
+        sheet.range('D16').value = request.POST.get('start_year')
+        sheet.range('D17').value = request.POST.get('base_year_activity')
+        sheet.range('D18').value = request.POST.get('base_year_emission')
+        sheet.range('D20').value = request.POST.get('end_year')
+        sheet.range('D21').value = request.POST.get('target_activity')
+        sheet.range('D22').value = request.POST.get('target_year_output')
+        sheet.range('D24').value = request.POST.get('scrap_base')
+        sheet.range('D25').value = request.POST.get('scrap_target')
+        # print("Start Year:", request.POST.get('start_year'))
+        # print("Base Year Activity:", request.POST.get('base_year_activity'))
+        # print("Base Year Emission:", request.POST.get('base_year_emission'))
+        # print("End Year:", request.POST.get('end_year'))
+        # print("Target Activity:", request.POST.get('target_activity'))
+        # print("Target Year Output:", request.POST.get('target_year_output'))
+        # print("Scrap Base:", request.POST.get('scrap_base'))
+        # print("Scrap Target:", request.POST.get('scrap_target'))
+
         time.sleep(2) 
         save_directory = os.path.join(settings.BASE_DIR, 'static/img')
         os.makedirs(save_directory, exist_ok=True) 
@@ -71,8 +87,8 @@ def steel(request):
         time.sleep(1)
 
         screenshot = ImageGrab.grabclipboard()
-
-        image_name = 'steel_content_image.png'
+        current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        image_name = f'{current_time}.png'
         server_image_path = os.path.join(save_directory, image_name)
 
         if screenshot is not None:
@@ -83,7 +99,8 @@ def steel(request):
 
         wb.close()
         app.quit()
-        return render(request, 'index.html', {'error': str(e)})
+        image_url = os.path.join('img', image_name)  
+        return render(request, 'steel.html', {'image_path': image_name})
 
     except Exception as e:
         if 'wb' in locals():
@@ -92,7 +109,31 @@ def steel(request):
             app.quit()  # Ensure Excel app is closed if an error occurs
         return render(request, 'index.html', {'error': str(e)})
 
-
+# formatting data
 def format_dataframe(df):
     pd.set_option('display.float_format', lambda x: f'{x:.2f}')
     return df.to_html(index=False, na_rep='')
+
+#displaying register form
+def register(request):
+    return render(request,"register.html")
+
+
+#displaying register form
+def login(request):
+    return render(request,"login.html")
+
+# index contact form
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save form data to the database
+            messages.success(request, 'Your message has been sent successfully.')  # Use messages here
+            return redirect('home')  # Redirect to the home page after success
+        else:
+            messages.error(request, 'There was an error with your submission. Please check the form.')
+    
+    # Optionally render the form even for GET requests
+    form = ContactForm()  # Ensure form is instantiated for GET requests
+    return render(request, 'index.html', {'form': form})

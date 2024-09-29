@@ -47,7 +47,6 @@
           <li><a href="#hero" class="active">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="steel">Steel Decarbonisation</a></li>
 
           {% comment %} <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
@@ -67,6 +66,7 @@
             </ul>
           </li> {% endcomment %}
           <li><a href="#contact">Contact</a></li>
+          <li><a href="{% url "login" %}">Login</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -85,7 +85,7 @@
         <div class="carousel-item active">
           <div class="carousel-container">
             <h2 class="animate__animated animate__fadeInDown">Welcome to Steel Decarbonisation Tool</h2>
-            <p class="animate__animated animate__fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+            <p class="animate__animated animate__fadeInUp">This Tool is intended to support steel companies in their modeling of science-based emissions reductions targets, as well as to assist companies and interested third parties in assessing and evaluating companies' targets.</p>
             <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
           </div>
         </div>
@@ -150,8 +150,7 @@
 
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
+              This Tool is intended to support steel companies in their modeling of science-based emissions reductions targets, as well as to assist companies and interested third parties in assessing and evaluating companies' targets.
             </p>
             <ul>
               <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
@@ -180,23 +179,25 @@
           <li class="nav-item col-3">
             <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
               <i class="bi bi-binoculars"></i>
-              <h4 class="d-none d-lg-block">Modi sit est dela pireda nest</h4>
+              <h4 class="d-none d-lg-block">Acronyms and definitions</h4>
             </a>
           </li>
           <li class="nav-item col-3">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
+            <a class="nav-link" >   {% comment %}data-bs-toggle="tab" data-bs-target="#features-tab-2" {% endcomment %}
               <i class="bi bi-box-seam"></i>
               <h4 class="d-none d-lg-block">Unde praesenti mara setra le</h4>
             </a>
           </li>
           <li class="nav-item col-3">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
+            {% comment %} data-bs-toggle="tab" data-bs-target="#features-tab-3" {% endcomment %}
+            <a class="nav-link">
               <i class="bi bi-brightness-high"></i>
               <h4 class="d-none d-lg-block">Pariatur explica nitro dela</h4>
             </a>
           </li>
           <li class="nav-item col-3">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-4">
+            {% comment %} data-bs-toggle="tab" data-bs-target="#features-tab-4" {% endcomment %}
+            <a class="nav-link" >
               <i class="bi bi-command"></i>
               <h4 class="d-none d-lg-block">Nostrum qui dile node</h4>
             </a>
@@ -208,26 +209,34 @@
           <div class="tab-pane fade active show" id="features-tab-1">
             <div class="row">
               <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0">
-                <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                <h3>Acronyms and definitions</h3>
                 <p class="fst-italic">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                  magna aliqua.
+                  This Tool is intended to support steel companies in their modeling of
+                   science-based emissions reductions targets, as well as to assist companies
+                    and interested third parties in assessing and evaluating companies' targets.
+                 							
                 </p>
                 <ul>
                   <li><i class="bi bi-check2-all"></i>
-                    <spab>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</spab>
+                    <span> <b> ACA	:</b> Absolute Contraction Approach</span>
                   </li>
-                  <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit</span>.</li>
-                  <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
+                  <li><i class="bi bi-check2-all"></i> <span><b> ACA :	</b> 	International Energy Agency					</span>.</li>
+                  <li><i class="bi bi-check2-all"></i> <span> <b> ACA	:</b> Sectoral Decarbonization Approach												
+                  </span></li>
+                  <li><i class="bi bi-check2-all"></i> <span> <b> ACA	:</b> Climate scenario aligned with a well-below 2 degree temperature goal												
+                  </span>.</li>
+                  <li><i class="bi bi-check2-all"></i> <span> <b> ACA	:</b> 	Climate scenario aligned with a 1.5 degree temperature goal												
+                  </span>.</li>
+                  <li><i class="bi bi-check2-all"></i> <span> <b> ACA	:</b> 	Metric tonnes of carbon dioxide equivalent												
+                  </span>.</li>
+                  <li><i class="bi bi-check2-all"></i> <span><b> ACA :	</b> Kilograms of carbon dioxide equivalent												
+                  </span>.</li>
+
                 </ul>
-                <p>
-                  Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                  velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                  culpa qui officia deserunt mollit anim id est laborum
-                </p>
+               
               </div>
               <div class="col-lg-6 order-1 order-lg-2 text-center">
-                <img src="static/assets/img/working-1.jpg" alt="" class="img-fluid">
+                <img src="static/assets/img/working-1.jpg" style="width:100%;height:425px" alt="" class="img-fluid">
               </div>
             </div>
           </div><!-- End Tab Content Item -->
@@ -774,16 +783,14 @@
               <div class="accordion-item">
                 <h2 class="mb-0">
                   <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-faq-1">
-                    How to download and register?
+                    How to register?
                   </button>
                 </h2>
 
                 <div id="collapse-faq-1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion-faq">
                   <div class="accordion-body">
-                    Far far away, behind the word mountains, far from the countries
-                    Vokalia and Consonantia, there live the blind texts. Separated
-                    they live in Bookmarksgrove right at the coast of the Semantics,
-                    a large language ocean.
+                  
+                    {% lorem 30 w random %}
                   </div>
                 </div>
               </div>
@@ -792,33 +799,30 @@
               <div class="accordion-item">
                 <h2 class="mb-0">
                   <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-faq-2">
-                How to create your paypal account?
-              </button>
-            </h2>
-            <div id=" collapse-faq-2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion-faq">
-                    <div class="accordion-body">
-                      A small river named Duden flows by their place and supplies it
-                      with the necessary regelialia. It is a paradisematic country, in
-                      which roasted parts of sentences fly into your mouth.
-                    </div>
+                    How to jek fkewj fkewj ej
+                  </button>
+                </h2>
+  
+                <div id="collapse-faq-2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion-faq">
+                  <div class="accordion-body">
+                    {% lorem 30 w random %}
+  
+                  </div>
+                </div>
               </div>
-            </div>
             <!-- .accordion-item -->
 
             <div class="accordion-item">
               <h2 class="mb-0">
                 <button class="btn btn-link collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-faq-3">
-                  How to link your paypal and bank account?
+                  How to jek fkewj fkewj ej
                 </button>
               </h2>
 
               <div id="collapse-faq-3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion-faq">
                 <div class="accordion-body">
-                  When she reached the first hills of the Italic Mountains, she
-                  had a last view back on the skyline of her hometown
-                  Bookmarksgrove, the headline of Alphabet Village and the subline
-                  of her own road, the Line Lane. Pityful a rethoric question ran
-                  over her cheek, then she continued her way.
+                  {% lorem 30 w random %}
+
                 </div>
               </div>
             </div>
@@ -1049,38 +1053,78 @@
             </div><!-- End Info Item -->
 
           </div>
-
           <div class="col-lg-8">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+            <form id="contactForm" action="{% url "contact" %}" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+              {% csrf_token %}
               <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+          
+                <div class="col-md-4">
+                  <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required="">
                 </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+          
+                <div class="col-md-4">
+                  <input type="text" id="contact" name="contact" class="form-control" placeholder="Your Contact No." required="">
                 </div>
-
+          
+                <div class="col-md-4">
+                  <input type="email" id="email" class="form-control" name="email" placeholder="Your Email" required="">
+                </div>
+          
                 <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                  <input type="text" id="subject" class="form-control" name="subject" placeholder="Subject" required="">
                 </div>
-
+          
                 <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                  <textarea id="message" class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
                 </div>
-
+          
                 <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
+                  <div class="loading" style="display:none;">Loading</div>
                   <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
+                  <div class="sent-message" style="display:none;">Your message has been sent. Thank you!</div>
+          
                   <button type="submit">Send Message</button>
                 </div>
-
               </div>
             </form>
-          </div><!-- End Contact Form -->
+          </div>
+          
+          <script>
+            document.getElementById('contactForm').addEventListener('submit', function(event) {
+              event.preventDefault(); // Prevent form submission for validation
+          
+              // Get form elements
+              const name = document.getElementById('name').value;
+              const contact = document.getElementById('contact').value;
+              const email = document.getElementById('email').value;
+              const subject = document.getElementById('subject').value;
+              const message = document.getElementById('message').value;
+          
+              // Simple validation
+              if (name === '' || contact === '' || email === '' || subject === '' || message === '') {
+                alert('All fields are required.');
+                return;
+              }
+          
+              // Validate email format
+              const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+              if (!emailPattern.test(email)) {
+                alert('Please enter a valid email.');
+                return;
+              }
+          
+              // If validation passes, you can proceed with submitting data via Django
+              this.submit();
+            });
+          </script>
+          <!-- End Contact Form -->
 
         </div>
 

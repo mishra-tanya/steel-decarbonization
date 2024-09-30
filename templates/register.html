@@ -1,109 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untitled</title>
+    <title>Registration Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <style>
-  
-      .login-dark form {
-        max-width:520px;
-        width:90%;
-        padding:40px;
-        border-radius:4px;
-        transform:translate(-50%, -50%);
-        position:absolute;
-        top:50%;
-        left:50%;
-        color:#fff;
-      }
-      
-      .login-dark .illustration {
-        text-align:center;
-        padding:15px 0 20px;
-        font-size:100px;
-        color:#2980ef;
-      }
-      
-      .login-dark form .form-control {
-        background:none;
-        border:none;
-        border-bottom:1px solid #434a52;
-        border-radius:0;
-        box-shadow:none;
-        outline:none;
-      }
-      
-      .login-dark form .btn-primary {
-        background:#214a80;
-        border:none;
-        border-radius:4px;
-        padding:11px;
-        box-shadow:none;
-        margin-top:26px;
-        text-shadow:none;
-        outline:none;
-      }
-      
-      .login-dark form .btn-primary:hover, .login-dark form .btn-primary:active {
-        background:#214a80;
-        outline:none;
-      }
-      
-      .login-dark form .forgot {
-        display:block;
-        text-align:center;
-        font-size:12px;
-        color:#6f7a85;
-        opacity:0.9;
-        text-decoration:none;
-      }
-      .register{
-        display:block;
-        text-align:center;
-        color:#6f7a85;
-        opacity:0.9;
-        text-decoration:none;
-      }
-      
-      .login-dark form .forgot:hover, .login-dark form .forgot:active {
-        opacity:1;
-        text-decoration:none;
-      }
-      
-      .login-dark form .btn-primary:active {
-        transform:translateY(1px);
-      }
-      
-      
+    .login-dark form {
+        max-width: 620px;
+        width: 90%;
+        padding: 40px;
+        border-radius: 4px;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #fff;
+    }
+
+    .login-dark .illustration {
+        text-align: center;
+        padding: 15px 0 20px;
+        font-size: 100px;
+        color: #2980ef;
+    }
+
+    .login-dark form .form-control {
+        background: none;
+        border: none;
+        border-bottom: 1px solid #434a52;
+        border-radius: 0;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .login-dark form .btn-primary {
+        background: #214a80;
+        border: none;
+        border-radius: 4px;
+        padding: 11px;
+        box-shadow: none;
+        margin-top: 26px;
+        text-shadow: none;
+        outline: none;
+    }
+
+    .login-dark form .btn-primary:hover,
+    .login-dark form .btn-primary:active {
+        background: #214a80;
+        outline: none;
+    }
+
+    .login-dark form .forgot {
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        color: #6f7a85;
+        opacity: 0.9;
+        text-decoration: none;
+    }
+
+    .register {
+        display: block;
+        text-align: center;
+        color: #6f7a85;
+        opacity: 0.9;
+        text-decoration: none;
+    }
+
+    .login-dark form .forgot:hover,
+    .login-dark form .forgot:active {
+        opacity: 1;
+        text-decoration: none;
+    }
+
+    .login-dark form .btn-primary:active {
+        transform: translateY(1px);
+    }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        display: none; /* Hidden by default */
+    }
 </style>
 
 <body>
     <div class="login-dark">
-        <form method="post">
+        <form method="post" action="{% url 'register' %}" id="registrationForm">
+            {% csrf_token %}
             <br><br>
             <h2 class="text-dark register">Registration Form</h2><br>
-            <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Your Full Name"></div>
-            <div class="form-group"><input class="form-control" type="text" name="phone" placeholder="Your Phone No."></div>
-            <div class="form-group"><input class="form-control" type="text" name="phone" placeholder="Country"></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Register</button></div>
-            {% comment %} <a href="#" class="forgot">Forgot your email or password?</a> {% endcomment %}
-            <a href="{% url "home" %}" class="forgot">Back To Home Page</a><br>
-            <a href="{% url "login" %}" style="font-size:15px;" class="forgot">Already Registered?   Login Now</a>
-        
+            <div class="form-group">
+                <input class="form-control" type="text" name="name" placeholder="Unique Username" required>
+                <span class="error" id="usernameError">Username is required</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="fname" placeholder="First Name" required>
+                <span class="error" id="firstNameError">First name is required</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="lname" placeholder="Last Name" required>
+                <span class="error" id="lastNameError">Last name is required</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="phone" placeholder="Your Phone No." pattern="\d{10}">
+                <span class="error" id="phoneError">Enter a valid phone number (10 digits)</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="country" placeholder="Country" required>
+                <span class="error" id="countryError">Country is required</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="Email" required>
+                <span class="error" id="emailError">Enter a valid email address</span>
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password" required minlength="6">
+                <span class="error" id="passwordError">Password must be at least 6 characters</span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">Register</button>
+            </div>
+            <a href="{% url 'home' %}" class="forgot">Back To Home Page</a><br>
+            <a href="{% url 'login' %}" style="font-size:15px;" class="forgot">Already Registered? Login Now</a>
         </form>
-
-
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const form = document.getElementById('registrationForm');
+
+        function validateField(field, errorElementId, validationFunction) {
+            const errorElement = document.getElementById(errorElementId);
+            if (validationFunction(field.value)) {
+                errorElement.style.display = 'none';
+                return true;
+            } else {
+                errorElement.style.display = 'block';
+                return false;
+            }
+        }
+
+        form.addEventListener('input', function () {
+            validateField(form['name'], 'usernameError', (value) => value.trim() !== '');
+            validateField(form['fname'], 'firstNameError', (value) => value.trim() !== '');
+            validateField(form['lname'], 'lastNameError', (value) => value.trim() !== '');
+            validateField(form['phone'], 'phoneError', (value) => /^\d{10}$/.test(value));
+            validateField(form['country'], 'countryError', (value) => value.trim() !== '');
+            validateField(form['email'], 'emailError', (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value));
+            validateField(form['password'], 'passwordError', (value) => value.length >= 6);
+        });
+
+        form.onsubmit = function (event) {
+            if (![...form.elements].every((input) => input.checkValidity())) {
+                event.preventDefault();
+            }
+        };
+    </script>
 </body>
 
 </html>

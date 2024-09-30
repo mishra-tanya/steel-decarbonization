@@ -23,6 +23,12 @@ import datetime
 from .forms import ContactForm
 from django.contrib import messages
 
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import login
+from .models import Profile 
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout  # Import necessary functions
+from .middlewares import auth
 # index
 def index(request):
     return render(request,"index.html")
@@ -32,10 +38,12 @@ def term(request):
     return render(request, 'starter-page.html')
 
 # steel page
+@auth
 def ste(request):
     return render(request,"steel.html")
 
 # steel logic url steel decarbonisation
+@auth
 def steel(request):
     # Define the path to the Excel file
     static_folder = os.path.join(settings.BASE_DIR, 'static')
@@ -116,12 +124,62 @@ def format_dataframe(df):
 
 #displaying register form
 def register(request):
-    return render(request,"register.html")
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        firstname=request.POST.get('fname')
+        lastname=request.POST.get('lname')
+        phone = request.POST.get('phone')
+        country = request.POST.get('country')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email is already registered")
+        else:
+            # Create user
+            user = User.objects.create_user(username=name,first_name=firstname,last_name=lastname, email=email, password=password)
+            user.save()
+
+            # Create user profile with phone and country
+            profile = Profile.objects.create(user=user, phone=phone, country=country)
+            profile.save()
+
+            messages.success(request, "Registration successful")
+            # login(request, user)
+            return redirect('login')
+
+    return render(request, 'register.html')
 
 
-#displaying register form
-def login(request):
-    return render(request,"login.html")
+#displaying login form
+def user_login(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        # Fetch the user by email
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            messages.error(request, "Invalid email or password.")
+            return redirect('login')
+
+        # Authenticate the user
+        user = authenticate(request, username=user.username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('ste')  # Redirect to the steel page after login
+        else:
+            messages.error(request, "Invalid email or password.")
+
+    return render(request, 'login.html')
+
+
+# logout
+def user_logout(request):
+    auth_logout(request)  # Logout the user
+    return redirect('login')  
+
 
 # index contact form
 def contact_view(request):

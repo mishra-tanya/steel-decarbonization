@@ -12,3 +12,4 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = ContactMessages
         fields = ['name', 'contact', 'email', 'subject', 'message']
+

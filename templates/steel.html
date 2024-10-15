@@ -136,7 +136,38 @@
               margin-bottom: 5px;
             }
           }
-          
+          .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .styled-table th, .styled-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .styled-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .styled-table tr:hover {
+            background-color: #ddd;
+        }
+        .styled-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .styled-table tr:first-child {
+            background-color: #05203f;
+            color: white; /* White text for contrast */
+        }
+    </style>
+    <style>
+        table, th, td {
+            border: 1px solid black;  /* Add border to table, headers, and cells */
+            border-collapse: collapse;  /* Ensure borders don't double up */
+            padding: 8px;  /* Add some padding to cells for readability */
+            text-align: center;  /* Center text in the cells */
+        }
+       
     </style>
 </head>
 <body class="starter-page-page">
@@ -295,15 +326,50 @@
             <p>Loading, please wait...</p>
         </div>
         
-        {% load static %}
+      
+<br>
+<p><b>Section 2. Sectoral Decarbonisation Approach </b></p>
+<p><b>SDA Sectoral Data: Iron and Steel - Core Boundaries</b></p>
 
-        <!-- Form End -->
-        {% if image_path %}
-        <div style="height: 500px; overflow: auto; border: 1px solid #ccc;margin-bottom:40px;">
-            <img src="/static/img/{{ image_path }}" alt="Steel Graph" style="height: 1511px; width: auto;">
-        <br></div>
+
+
+        {% load static %}
+        {% if image1 %}
+        <div style="height: auto; overflow: auto; border: 1px solid #ccc; margin-bottom: 40px;">
+                <img src="/static/img/{{ image1 }}" alt="Image 1" style="height: auto; width: 95%;">
+        </div>
         {% endif %}
+<br>
+        <p><b>SBTi 1.5C Scenario</b></p>
+
+<div class="table-responsive ">
+        <tbody>
+            {{ table_html_1|safe }}  <!-- This will insert your dynamic table content, excluding the header -->
+        </tbody>
+</div>
+<br><br>
+        {% if image2 %}
+        <div style="height: auto; overflow: auto; border: 1px solid #ccc; margin-bottom: 40px;">
+                <img src="/static/img/{{ image2 }}" alt="Image 2" style="height: auto; width: 95%;">
+        </div>
+        {% endif %}
+
+        <br>
+        <p><b>3. All Target Modelling Data</b></p>
+
         
+        <div>
+            <div class="table-responsive ">
+                   
+                    <tbody>
+                        {{ table_html_2|safe }}  <!-- This will insert your dynamic table content, excluding the header -->
+                    </tbody>
+        </div>
+    </div>
+
+    <br>    <!-- Form End -->
+
+       
         {% if error %}
             <p style="color: red;">{{ error }}</p>
         {% endif %}

@@ -78,17 +78,25 @@
 
 <body>
     <div class="login-dark">
-        <form method="post">
-            <h2 class="sr-only">Login Form</h2>
-            <div class="illustration"> <i class="icon ion-ios-locked-outline"></i></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
-            {% comment %} <a href="#" class="forgot">Forgot your email or password?</a> {% endcomment %}
-            <a href="{% url "home" %}" class="forgot">Back To Home Page</a><br>
-            <a href="{% url "register" %}" style="font-size:15px;" class="forgot">Not Registered?   Register Now</a>
-        
-        </form>
+      <form method="post">
+        {% csrf_token %}
+        <h2 class="sr-only">Login Form</h2>
+        <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+        {% for message in messages %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+        <div class="form-group">
+            <input class="form-control" type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" type="submit">Log In</button>
+        </div>
+        <a href="{% url 'home' %}" class="forgot">Back To Home Page</a><br>
+        <a href="{% url 'register' %}" style="font-size: 15px;" class="forgot">Not Registered? Register Now</a>
+    </form>
 
 
     </div>

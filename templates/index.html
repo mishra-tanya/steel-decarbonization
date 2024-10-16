@@ -65,8 +65,12 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li> {% endcomment %}
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="{% url "login" %}">Login</a></li>
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'ste' %}">Steel Decarbonisation</a></li>  
+              <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'login' %}">Login</a></li>  <!-- Show Login if not logged in -->
+          {% endif %}
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -84,7 +88,9 @@
         <!-- Slide 1 -->
         <div class="carousel-item active">
           <div class="carousel-container">
-            <h2 class="animate__animated animate__fadeInDown">Welcome to Steel Decarbonisation Tool</h2>
+            <h2 class="animate__animated animate__fadeInDown"><br>
+              <p class="text-capitalize">Welcome, {% if user.is_authenticated %}  {{ user.first_name|slice:":6" }} {% endif %}</p>
+               to Steel Decarbonisation Tool</h2>
             <p class="animate__animated animate__fadeInUp">This Tool is intended to support steel companies in their modeling of science-based emissions reductions targets, as well as to assist companies and interested third parties in assessing and evaluating companies' targets.</p>
             <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
           </div>
